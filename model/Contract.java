@@ -47,5 +47,39 @@ public class Contract {
         return member;
     }
 
+    public String getMemberName(){
+        return member.getName();
+    }
 
+    public void setItem(Item item){
+        this.item = item;
+    }
+
+    public Item getItem(){
+        return item;
+    }
+
+    /**
+     * Method to check if any contract over laps the desired dates.
+     * @param lendStartDate
+     * @param lendEndDate
+     * @return
+     */
+    public boolean contractOverLaps(int lendStartDate, int lendEndDate){
+        return !(lendEndDate < this.startDate || lendStartDate > this.endDate);
+    }
+
+    /**
+     * Methodto check if given date is within contract date range.
+     */
+    public boolean dateWithinContract(int date){
+        return date>= startDate && date<= endDate;
+    }
+
+    /**
+     * Checks if Lender name already exists.
+     */
+    public boolean lenderNameMatch(String lenderName){
+        return this.member.getName().equals(lenderName);
+    }
 }

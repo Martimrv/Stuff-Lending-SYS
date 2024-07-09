@@ -15,8 +15,8 @@ public class Member {
     private int credits;
     private String phoneNumber;
     private int registrationDate;
-    //  private List<> owned = new ArrayList<>();
-    //  private List<> lended = new ArrayList<>();
+    private List<Item> owned = new ArrayList<>();
+    private List<Item> lent = new ArrayList<>();
 
     /**
      * Member constructors.
@@ -105,10 +105,99 @@ public class Member {
         this.credits += member.getCredits() + creditsValue;
     }
 
+    /**
+     * Method to remove credits to the member.
+     */
+    public void removeCredits(Member member, int creditsValue){
+        this.credits -= member.getCredits() + creditsValue;
+    }
 
+    /**
+     * Method to return all owned items.
+     */
+    public Iterable<Item> getOwnedItems(){
+        return owned;
+    }
 
+    /**
+     * Method to return all lended items.
+     */
+    public Iterable<Item> getLendedItems(){
+        return lent;
+    }
 
+    /**
+     * Gets Item (by name) form the owner items.
+     */
+    public Item getItem(String name){
+        for(Item item : owned){
+            if(item.nameMatches(name)){
+                return item;
+            }
+        }
+        return null;
+    }
 
+    /**
+     * Method to add Item to the member.
+     */
+    public void addItem(Item item){
+        if(item == null){
+            throw new IllegalArgumentException("Item cannot be null");
+        }
+        owned.add(item);
+        addCredits(this, 100);
+        item.setOwner(this);
+    }
 
+    /**
+     * Method to remove Item from member account.
+     */
+    public void removeItem(Item item){
+        if(item == null){
+            throw new IllegalArgumentException("Item cannot be null");
+        }
+        owned.remove(item);
+        removeCredits(this, 100);
+    }
+
+    /**
+     * Add lent item.
+     */
+    public void addLentItem(Item item){
+        lent.add(item);
+        deduceCredits(item.getContractByLenderName(this));
+    }
+
+    /**
+     * Method to check if member has enough credits.
+     */
+    public boolean deduceCredits(Contract contract){
+        if (contract == null || contract.getItem() == null){
+            throw new IllegalArgumentException("Contract cannot be null");
+        }
+
+        int nbOfDays = ContractUtils.calculateDays(contract.getStartDate(), contract.getEndDate());
+        int price = ContractUtils.calculateTotalCost(nbOfDays, contract.getItem().getItemCost());
+
+        if (credits >= price){
+            removeCredits(this, price);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method to check if member has enough credits.
+     */
+    public boolean checkIfEnoughCred(Member member, Item item, int startDate, int endDate) {
+        int totalNbDays = ContractUtils.calculateDays(startDate, endDate);
+        int price = ContractUtils.calculateTotalCost(totalNbDays, item.getItemCost());
+        if (member.getCredits() >= price){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 

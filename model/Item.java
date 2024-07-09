@@ -43,7 +43,7 @@ public class Item {
      * Getters and Setters.
      */
 
-     public void setName(String name){
+    public void setName(String name){
         this.name = name;
     }
 
@@ -99,7 +99,88 @@ public class Item {
         return owner;
     }
 
-    
+    /**
+     * Returns all contracts that are connected to the Item.
+     */
+    public Iterable<Contract> getItemContracts(){
+        return contractList;
+    }
+
+    /**
+     * Method to check ItemAvailability.
+     * Iterates through contractList.
+     */
+    public Boolean isItemAvailable(int lendStartDate, int lendEndDate){
+        if (lendStartDate > lendEndDate){
+            return false;
+        }
+        for (Contract contract : contractList){
+            if(contract.contractOverLaps(lendStartDate, lendEndDate)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to add a Contract to contractList.
+     */
+    public void addContract(Contract contract){
+        contractList.add(contract);
+    }
+
+    /**
+     * Method to return a Contract based on specific date.
+     */
+    public Contract getContractByDate(int time){
+        for (Contract contract : contractList){
+            if(contract.dateWithinContract(time)){
+                return contract;
+            }
+        }
+        return null;
+    }
+
+    /*
+     * Gets lender by the name.
+     */
+    public Member getLenderByName(String name) {
+        for (Contract contract : contractList) {
+            if(contract.lenderNameMatch(name)){
+                return contract.getMember();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method returns contract based on Lender name.
+     * @param name
+     * @return
+     */
+    public Contract getContractByLenderName(Member lender) {
+        for (Contract contract : contractList) {
+            if (lender == contract.getMember()) {
+                return contract;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks if item name matches the given name.
+     */
+    public boolean nameMatches(String name){
+        return this.name.equals(name);
+    }
+
+
+
+
+
+
+
+
 
 
 
