@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+
 import model.Boat;
 import model.Member;
 
@@ -37,5 +39,15 @@ public class BoatController implements BoatInterface {
         }
         throw new UnsupportedOperationException("Unimplemented method 'changeBoat'");
         }
+    }
+
+    @Override
+    public int getNumOfBoatsByMember(String name, ArrayList<Member> members) {
+        for (Member member : members) {
+            if (member.getName().equals(name)) {
+                return member.getBoatList().size();
+            }
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'getNumOfBoatsByMember'");
     }
 }

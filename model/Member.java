@@ -6,23 +6,23 @@ import java.util.*;
  * Representa data related only to Member.
  */
 public class Member {
-    private int id;
+    private String id;
     private String name;
-    private int identificationNb;
+    private String identificationNb;
     private String email;
     private ArrayList<Boat> boatList;
 
     /**
      * Constructors.
      */
-    public Member(String name, int idNumber, String email) {
+    public Member(String name, String idNumber, String email) {
         this.name = name;
         this.identificationNb = idNumber;
         this.email = email;
         boatList = new ArrayList<>();
     }
 
-    public Member(int id, String name, int idNumber, String email) {
+    public Member(String id, String name, String idNumber, String email) {
         this.id = id;
         this.name = name;
         this.identificationNb = idNumber;
@@ -32,11 +32,11 @@ public class Member {
     /**
      * Getters and Setters.
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setMemberId(int id) {
+    public void setMemberId(String id) {
         this.id = id;
     }
 
@@ -48,11 +48,11 @@ public class Member {
         this.name = name;
     }
 
-    public int getIdNumber() {
+    public String getIdNumber() {
         return identificationNb;
     }
 
-    public void setIdNumber(int idNumber) {
+    public void setIdentificationNumber(String idNumber) {
         this.identificationNb = idNumber;
     }
 
